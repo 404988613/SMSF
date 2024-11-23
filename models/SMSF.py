@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Time : 2024/3/15 9:09
-# @File : SMSF.py
+# @File : TDA-FSMS.py
 # @Software : PyCharm
 
 import numpy as np

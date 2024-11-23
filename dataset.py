@@ -41,7 +41,7 @@ class Stega_dataset(Dataset):
 
 def get_dataloader(batch_size, corpus, stego_method, dataset, seed=None, w_aug=True, label_list=None, task=None, pkl_file=None):
 
-    path = './data/Steganalysis/'
+    path = '/home/xuzh/code/stega-analysis/SCL-Stega/data/Steganalysis/'
     if w_aug:
         with open(path+corpus+"/"+stego_method+"/"+dataset+pkl_file, "rb") as f:
             data = pickle.load(f)

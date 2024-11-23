@@ -28,4 +28,4 @@ python train.py
 - [SeSy: Linguistic Steganalysis Framework Integrating Semantic and Syntactic Features (Sesy)](https://ieeexplore.ieee.org/abstract/document/9591452)
 - [High-Performance Linguistic Steganalysis, Capacity Estimation and Steganographic Positioning (BERT-LSTM-ATT)](https://link.springer.com/chapter/10.1007%2F978-3-030-69449-4_7)
 - [SCL-Stega: Exploring Advanced Objective in Linguistic Steganalysis using Contrastive Learning](https://dl.acm.org/doi/abs/10.1145/3577163.3595111)
-- SMSF
+- TDA-FSMS

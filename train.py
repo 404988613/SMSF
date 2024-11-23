@@ -8,12 +8,12 @@ from datetime import datetime
 import torch
 import torch.utils.data
 from torch import nn
-import config as train_config
+import config_ge as train_config
 from dataset import get_dataloader
 from util import iter_product
 from sklearn.metrics import f1_score
 import loss as loss
-from models import bert,cnn,rnn,bilstm_dense,r_bilstm_c,sesy,scl,SMSF
+from models import bert,cnn,rnn,bilstm_dense,r_bilstm_c,sesy,scl,SMSF,GE
 from transformers import AdamW, get_linear_schedule_with_warmup
 
 def train(epoch, train_loader, model_main, loss_function, optimizer, lr_scheduler, log, stage=None):
@@ -227,7 +227,31 @@ def stega_train(log):
         model_main = bert.Bert()
     elif log.param.model_type == "scl":
         model_main = scl.ELECTRA()
-    elif log.param.model_type == "etatt":
+    elif log.param.model_type == "GE":
+        CELL = "bi-gru"  # rnn, bi-rnn, gru, bi-gru, lstm, bi-lstm
+        EMBED_SIZE = 300  # 128
+        HIDDEN_DIM = 100  # 256
+        NUM_LAYERS = 2
+        CLASS_NUM = 2
+        DROPOUT_RATE = 0.2  # 0.2
+        K = 10
+        G = 10
+        FILTER_NUM = 100
+        FILTER_SIZE = [3, 5]
+        model_main = GE.ge(
+            cell = CELL,
+            vocab_size = 30522,
+            embed_size = EMBED_SIZE,
+            filter_num = FILTER_NUM,
+            filter_size = FILTER_SIZE,
+            hidden_dim = HIDDEN_DIM,
+            num_layers = NUM_LAYERS,
+            class_num = CLASS_NUM,
+            dropout_rate = DROPOUT_RATE,
+            k = K,
+            g = G,
+        )
+    elif log.param.model_type == "TDA-FSMS":
         model_main = SMSF.ETAFF(data=train_data.dataset.data)
 
     total_params = list(model_main.named_parameters())
@@ -236,6 +260,7 @@ def stega_train(log):
     optimizer_grouped_parameters = [{'params': [p for n, p in total_params if not any(nd in n for nd in no_decay)], 'weight_decay': log.param.decay},
                                     {'params': [p for n, p in total_params if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}]
     optimizer = AdamW(optimizer_grouped_parameters, lr=log.param.main_learning_rate)
+    optimizer = torch.optim.Adam(model_main.parameters(), log.param.main_learning_rate, weight_decay = 1e-6)  # 优化函数
     lr_scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=num_training_steps)
 
     print("num_training_steps: ", num_training_steps)

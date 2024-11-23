@@ -1,5 +1,5 @@
 corpus = "IMDB"
-stego_method = "AC"
+stego_method = "VLC"
 dataset = ["3bpw"]
 # stego_method = "ADG"
 # dataset = ["xbpw"]
@@ -17,7 +17,7 @@ SEED = [0]
 
 loss_type = "ce"  # ['ce', 'scl']
 is_waug = False
-model_type = "rnn" # ["ls-cnn", "rnn", "bilstm_dense", "r_bilstm_c", "sesy", "bert", "scl", "TDA-FSMS"]
+model_type = "GE" # ["ls-cnn", "rnn", "bilstm_dense", "r_bilstm_c", "sesy", "bert", "scl", "etaff"]
 task = None # ['graph_steganalysis', None]
 pkl_file = "_preprocessed_bert.pkl" # ['_preprocessed_ernie.pkl']
 
